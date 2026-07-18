@@ -1,0 +1,22 @@
+{
+	"name": "focal-point-suggest",
+	"version": "0.1.0",
+	"description": "Suggest a focal point for Cover block images by detecting faces locally in the browser.",
+	"author": "Abhishek Kumar",
+	"license": "GPL-2.0-or-later",
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/abhishekfdd/focal-point-suggest.git"
+	},
+	"scripts": {
+		"build": "wp-scripts build",
+		"start": "wp-scripts start",
+		"format": "wp-scripts format",
+		"lint:js": "wp-scripts lint-js",
+		"test:unit": "wp-scripts test-unit-js"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^33.0.0"
+	}
+}
