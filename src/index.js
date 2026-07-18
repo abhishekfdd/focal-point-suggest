@@ -1,9 +1,23 @@
 /**
  * Focal Point Suggest — editor entry point.
  *
- * Extends the core Cover block with a focal point suggestion panel.
- * The BlockEdit filter and inspector UI are added in the integration
- * layer; this file only wires up the registration.
+ * Extends the core Cover block with a focal point suggestion panel via
+ * the `editor.BlockEdit` filter.
  */
 
-/* Integration with core/cover lands in the next milestone. */
+/**
+ * WordPress dependencies
+ */
+import { addFilter } from '@wordpress/hooks';
+
+/**
+ * Internal dependencies
+ */
+import withSuggestion from './editor/with-suggestion';
+import './editor.scss';
+
+addFilter(
+	'editor.BlockEdit',
+	'focal-point-suggest/with-suggestion',
+	withSuggestion
+);

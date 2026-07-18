@@ -66,6 +66,17 @@ function enqueue_editor_assets(): void {
 	);
 
 	wp_set_script_translations( 'focal-point-suggest-editor', 'focal-point-suggest' );
+
+	$style_file = plugin_dir() . 'build/index.css';
+
+	if ( file_exists( $style_file ) ) {
+		wp_enqueue_style(
+			'focal-point-suggest-editor',
+			plugin_url() . 'build/index.css',
+			array(),
+			$asset['version']
+		);
+	}
 }
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_editor_assets' );
 
