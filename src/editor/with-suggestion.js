@@ -22,7 +22,7 @@ const withSuggestion = createHigherOrderComponent( ( BlockEdit ) => {
 			return <BlockEdit { ...props } />;
 		}
 
-		const { url, backgroundType, focalPoint, hasParallax, isRepeated } =
+		const { url, id, backgroundType, focalPoint, hasParallax, isRepeated } =
 			props.attributes;
 		const hasImage = 'image' === backgroundType && !! url;
 
@@ -36,6 +36,7 @@ const withSuggestion = createHigherOrderComponent( ( BlockEdit ) => {
 				<InspectorControls>
 					<SuggestionPanel
 						url={ url }
+						attachmentId={ id }
 						focalPoint={ focalPoint }
 						disabled={ !! hasParallax || !! isRepeated }
 						onAccept={ ( point ) =>

@@ -94,6 +94,73 @@ function enqueue_editor_assets(): void {
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\enqueue_editor_assets' );
 
 /**
+ * Sanitize a focal point meta value.
+ *
+ * Coordinates are cast to float, clamped to the 0–1 range, and rounded
+ * to two decimals. Anything malformed collapses to an empty array so
+ * invalid data is never stored.
+ *
+ * @param mixed $value Raw meta value.
+ * @return array Sanitized `{ x, y }` pair, or an empty array.
+ */
+function sanitize_focal_point( $value ): array {
+	if ( ! is_array( $value ) || ! isset( $value['x'], $value['y'] ) ) {
+		return array();
+	}
+
+	if ( ! is_numeric( $value['x'] ) || ! is_numeric( $value['y'] ) ) {
+		return array();
+	}
+
+	return array(
+		'x' => round( min( 1.0, max( 0.0, (float) $value['x'] ) ), 2 ),
+		'y' => round( min( 1.0, max( 0.0, (float) $value['y'] ) ), 2 ),
+	);
+}
+
+/**
+ * Register the focal point meta on attachments.
+ *
+ * Stored per attachment so a focal point computed once can be offered
+ * again wherever the same image is used, without re-running inference.
+ *
+ * @return void
+ */
+function register_focal_point_meta(): void {
+	register_post_meta(
+		'attachment',
+		'_fps_focal_point',
+		array(
+			'type'              => 'object',
+			'single'            => true,
+			'sanitize_callback' => __NAMESPACE__ . '\\sanitize_focal_point',
+			'auth_callback'     => static function ( $allowed, $meta_key, $post_id ) {
+				return current_user_can( 'edit_post', $post_id );
+			},
+			'show_in_rest'      => array(
+				'schema' => array(
+					'type'                 => 'object',
+					'properties'           => array(
+						'x' => array(
+							'type'    => 'number',
+							'minimum' => 0,
+							'maximum' => 1,
+						),
+						'y' => array(
+							'type'    => 'number',
+							'minimum' => 0,
+							'maximum' => 1,
+						),
+					),
+					'additionalProperties' => false,
+				),
+			),
+		)
+	);
+}
+add_action( 'init', __NAMESPACE__ . '\\register_focal_point_meta' );
+
+/**
  * Warn administrators when the plugin is active but not built.
  *
  * @return void
