@@ -67,6 +67,19 @@ function enqueue_editor_assets(): void {
 
 	wp_set_script_translations( 'focal-point-suggest-editor', 'focal-point-suggest' );
 
+	wp_add_inline_script(
+		'focal-point-suggest-editor',
+		sprintf(
+			'window.focalPointSuggestSettings = %s;',
+			wp_json_encode(
+				array(
+					'assetsUrl' => esc_url_raw( plugin_url() . 'build/' ),
+				)
+			)
+		),
+		'before'
+	);
+
 	$style_file = plugin_dir() . 'build/index.css';
 
 	if ( file_exists( $style_file ) ) {
