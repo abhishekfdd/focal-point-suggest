@@ -8,6 +8,8 @@ a Web Worker, no cloud API, no image ever leaving the site. The
 suggestion appears in the block inspector, where you can accept, reject,
 or fine-tune it with the standard focal point picker.
 
+<video src="https://github.com/user-attachments/assets/24a064a8-9485-4235-a328-b3f09e2829db" width="720" controls muted loop></video>
+
 ## Why
 
 Cover blocks crop aggressively at different viewport sizes, and the
